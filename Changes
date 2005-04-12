@@ -1,0 +1,15 @@
+Revision history for Perl extension Scalar::Quote.
+
+0.22  Apr 12 2004
+	- general clean up
+	- tests added
+	- restructured docs
+
+0.21  Apr 11 2004
+	- core module copied and renamed from my private
+	  Assert::Quote.
+
+0.01  Mon Apr 11 22:04:06 2005
+	- original version; created by h2xs 1.23 with options
+		-AX -n Scalar::Quote
+
