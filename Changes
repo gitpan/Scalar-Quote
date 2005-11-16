@@ -1,6 +1,13 @@
 Revision history for Perl extension Scalar::Quote.
 
-0.22  Apr 12 2004
+0.24  Nov 16 2005
+	- algorithm to search for diffs in strings optimized.
+
+0.23  Jun 16 2005
+	- uninitialized warnings supressed
+	- print numbers as floats instead of as integers
+
+0.22  Apr 12 2005
 	- general clean up
 	- tests added
 	- restructured docs

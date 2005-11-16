@@ -1,6 +1,6 @@
 package Scalar::Quote;
 
-our $VERSION = '0.22';
+our $VERSION = '0.24';
 
 use 5.006;
 use strict;
@@ -60,12 +60,16 @@ sub str_diffix ($$) {
 
   return -1 if $a eq $b;
 
-  my $c;
-  for (my $i=0;;$i++) {
-    $c=substr($a,$i,1);
-    return $i
-      unless ( $c ne '' and $c eq substr($b,$i,1));
-  }
+  # my $c;
+  # for (my $i=0;;$i++) {
+  #   $c=substr($a,$i,1);
+  #   return $i
+  #     unless ( $c ne '' and $c eq substr($b,$i,1));
+  # }
+
+  my $c = $a ^ $b;
+  $c =~ m/[^\0]/g;
+  return pos($c);
 }
 
 # quote_cut($string, $start, $len), like substr() but adds a head and a tail
@@ -113,9 +117,9 @@ sub N ($ ) {
   no warnings;
   if (defined $_[0]) {
     if ($_[0]=~/$number_re/o) {
-      return sprintf("%d", $_[0]);
+      return sprintf("%f", $_[0]);
     }
-    return sprintf("%d (str: %s)", $_[0], S($_[0]));
+    return sprintf("%f (str: %s)", $_[0], S($_[0]));
   }
   'undef'
 }
@@ -123,6 +127,7 @@ sub N ($ ) {
 
 # D computes the difference between two strings.
 sub D ($$;$$ ) {
+    no warnings 'uninitialized';
     return () if $_[0] eq $_[1];
 
     my $len=defined $_[3] ? $_[3] : 32;
@@ -157,18 +162,18 @@ Scalar::Quote - Utility functions to quote Perl strings
 
 =head1 SYNOPSIS
 
-  use String::Quote ':short';
+  use Scalar::Quote ':short';
   $_=pack('c',rand 127) for (@a[0..1000]);
-  $a=join '', @a;
+  $s1=join '', @a;
   $_=pack('c',rand 127) for (@b[0..1000]);
-  $b=join '', @b;
+  $s2=join '', @b;
   $_=pack('c',rand 127) for (@c[0..40]);
-  $c=join '', @c;
+  $s3=join '', @c;
 
-  print "Q(\$a)=",Q($a),"\n";
+  print "Q(\$s1)=",Q($s1),"\n";
   print "S(\$a)=",S($a),"\n";
-  D($c.$a, $c.$b);
-  print A," is not the same as ",B,"\n";
+  D($s3.$s1, $s3.$s2);
+  print "$a is not the same as $b\n";
   print N(0), N(1), N(undef), N("hello"), "\n";
 
 =head1 ABSTRACT
@@ -198,6 +203,10 @@ escaping unprintable and quoting chars as required.
 =item quote_start($string)
 
 =item S($string)
+
+=item quote_start($string, $length)
+
+=item S($string, $length)
 
 quote the beginning of C<$string>.
 
