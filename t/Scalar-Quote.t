@@ -4,7 +4,7 @@
 
 #########################
 
-use Test::More tests => 151;
+use Test::More tests => 153;
 
 BEGIN { use_ok('Scalar::Quote') };
 
@@ -15,6 +15,9 @@ sub rs {
     my @str=grep { !/[\$\@]/ } (map { chr(int(rand(200))) } 1..$len);
     join '', @str;
 }
+
+is (str_diffix('foo', 'fooa'), 3);
+is (str_diffix('foao', 'fooa'), 2);
 
 for $i (1..50) {
     my $str=rs;

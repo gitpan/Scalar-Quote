@@ -1,6 +1,6 @@
 package Scalar::Quote;
 
-our $VERSION = '0.24';
+our $VERSION = '0.25';
 
 use 5.006;
 use strict;
@@ -67,9 +67,16 @@ sub str_diffix ($$) {
   #     unless ( $c ne '' and $c eq substr($b,$i,1));
   # }
 
-  my $c = $a ^ $b;
-  $c =~ m/[^\0]/g;
-  return pos($c);
+  my $la = length $a;
+  my $lb = length $b;
+
+  my $min = $la < $lb ? $la : $lb;
+
+  my $c = substr($a, 0, $min) ^ substr($b, 0, $min);
+  if ($c =~ m/[^\0]/g) {
+      return pos($c) - 1;
+  }
+  return $min;
 }
 
 # quote_cut($string, $start, $len), like substr() but adds a head and a tail

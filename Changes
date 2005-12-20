@@ -1,5 +1,8 @@
 Revision history for Perl extension Scalar::Quote.
 
+0.25  Dec 20 2005
+	- corrected bug on str_diffix
+
 0.24  Nov 16 2005
 	- algorithm to search for diffs in strings optimized.
 
