@@ -1,6 +1,6 @@
 package Scalar::Quote;
 
-our $VERSION = '0.25';
+our $VERSION = '0.26';
 
 use 5.006;
 use strict;
@@ -41,8 +41,7 @@ sub escape_char($ ) {
 sub Q ($ ) {
   my $s=shift;
   defined $s or return 'undef';
-  if ($s=~/['\\]/ or $s=~/[^[:print:]]/) {
-    $s=~s/([^[:print:]]|[\\"])/escape_char($1)/ge;
+  if ($s=~s/([^!#&()*+,\-.\/0123456789:;<=>?ABCDEFGHIJKLMNOPQRSTUVWXYZ\[\]\^_`abcdefghijklmnopqrstuvwxyz{|}~ ])/escape_char($1)/ge) {
     return qq("$s");
   }
   return qq('$s');
@@ -287,7 +286,7 @@ Salvador FandiE<ntilde>o, E<lt>sfandino@yahoo.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2002-2005 by Salvador FandiE<ntilde>o
+Copyright 2002-2006 by Salvador FandiE<ntilde>o
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

@@ -1,5 +1,8 @@
 Revision history for Perl extension Scalar::Quote.
 
+0.26  Nov 25 2006
+        - unicode chars were not escaped
+
 0.25  Dec 20 2005
 	- corrected bug on str_diffix
 
